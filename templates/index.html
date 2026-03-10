@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Password Gen</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; justify-content: center; padding-top: 50px; background: #1a1a1a; color: white; }
+        .box { background: #2d2d2d; padding: 30px; border-radius: 12px; text-align: center; width: 350px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        #pass { font-size: 1.2rem; background: #444; padding: 15px; margin: 20px 0; border-radius: 5px; word-break: break-all; color: #00ffcc; min-height: 1.5em; }
+        input[type=range] { width: 100%; margin: 15px 0; }
+        button { width: 100%; padding: 12px; border: none; border-radius: 5px; background: #0078d4; color: white; cursor: pointer; font-weight: bold; }
+        button:hover { background: #0086f1; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2>Password Generator</h2>
+        <input type="range" id="lenRange" min="8" max="32" value="16" oninput="lenVal.innerText = this.value">
+        <p>Length: <span id="lenVal">16</span></p>
+        <div id="pass">********</div>
+        <button onclick="gen()">Generate</button>
+    </div>
+
+    <script>
+        async function gen() {
+            const length = document.getElementById('lenRange').value;
+            const response = await fetch(`/get-password?length=${length}`);
+            const data = await response.json();
+            document.getElementById('pass').innerText = data.password;
+        }
+    </script>
+</body>
+</html>
